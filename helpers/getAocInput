@@ -1,0 +1,15 @@
+#!/bin/zsh
+
+DAY=$1
+PADDED_DAY=${(l:2::0:)DAY}
+YEAR=${2:-2021}
+INPUT_URL="https://adventofcode.com/$YEAR/day/$1/input"
+
+SCRIPT_DIR=${0:a:h}
+SESSION_LOCATION="$SCRIPT_DIR/.aoc.session"
+SESSION_COOKIE=`cat $SESSION_LOCATION`
+OUTPUT_FILE="$SCRIPT_DIR/../years/$YEAR/inputs/input$PADDED_DAY.txt"
+
+curl "$INPUT_URL" \
+-H "cookie: $SESSION_COOKIE" \
+--output "$OUTPUT_FILE"
