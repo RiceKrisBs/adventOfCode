@@ -18,6 +18,7 @@ INPUT_URL="https://adventofcode.com/$YEAR/day/$1/input"
 SCRIPT_DIR=${0:a:h}
 SESSION_LOCATION="$SCRIPT_DIR/.aoc.session"
 SESSION_COOKIE=`cat $SESSION_LOCATION`
+CONTACT_INFO="github.com/RiceKrisBs/adventOfCode/blob/main/helpers/getAocInput by krisbucyk@gmail.com"
 
 if [ "$TEST_INPUT" = true ]
 then
@@ -25,5 +26,5 @@ then
   touch "$OUTPUT_FILE"
 else
   OUTPUT_FILE="$SCRIPT_DIR/../years/$YEAR/inputs/input$PADDED_DAY.txt"
-  curl "$INPUT_URL" -H "cookie: $SESSION_COOKIE" --output "$OUTPUT_FILE"
+  curl "$INPUT_URL" -H "cookie: $SESSION_COOKIE" -H "User-Agent: $CONTACT_INFO" --output "$OUTPUT_FILE"
 fi
