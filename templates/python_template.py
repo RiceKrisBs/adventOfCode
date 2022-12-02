@@ -7,15 +7,8 @@ if testing:
 else:
     f_input = os.path.join('inputs', f'input{day}.txt')
 
-def part_one(input):
+def part1(input):
     with open(input) as f:
         pass
 
-print('Part one: ', part_one(f_input))
-
-
-def part_two(input):
-    with open(input) as f:
-        pass
-
-print('Part two: ', part_one(f_input))
+print('Part 1: ', part1(f_input))
