@@ -1,6 +1,6 @@
 import os.path
 
-testing = False
+testing = True
 day = '01'
 if testing:
     f_input = os.path.join('inputs', f'input{day}-test.txt')
@@ -9,6 +9,6 @@ else:
 
 def part1(input):
     with open(input) as f:
-        pass
+        data = [line.strip() for line in f]
 
-print('Part 1: ', part1(f_input))
+print(f'Part 1: {part1(f_input)}')

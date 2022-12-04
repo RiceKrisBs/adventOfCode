@@ -10,8 +10,8 @@ else
 end
 
 def part1(input)
-  File.foreach(input).with_index do |line, line_num|
-    line = line.chomp
+  data = []
+  File.foreach(input) { |line| data << line.chomp }
   end
 end
 
