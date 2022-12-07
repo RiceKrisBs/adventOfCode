@@ -1,7 +1,10 @@
 import os.path
 
 testing = True
-day = '01'
+day = ''
+if not day:
+    raise OSError('Set the day!')
+
 if testing:
     f_input = os.path.join('inputs', f'input{day}-test.txt')
 else:
