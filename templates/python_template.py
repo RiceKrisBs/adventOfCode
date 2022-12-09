@@ -14,4 +14,5 @@ def part1(input):
     with open(input) as f:
         data = [line.strip() for line in f]
 
-print(f'Part 1: {part1(f_input)}')
+p1_ans = part1(f_input)
+print(f'Part 1: {p1_ans}')
