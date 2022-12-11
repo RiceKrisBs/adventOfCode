@@ -47,3 +47,49 @@ def part1(input):
 p1_ans = part1(f_input)
 print(f'Part 1: {p1_ans}')
 
+
+def part2(input):
+    with open(input) as f:
+        data = [line.strip() for line in f]
+    
+    cycle = 1
+    X = 1
+    board = ''
+    lit = '█'
+    unlit = '.'
+
+    for num, line in enumerate(data):
+        # start of cycle
+        l = line.split()
+
+        if l[0] == 'noop':
+            # during cycle
+            sprite = (X-1, X, X+1)
+            if (cycle-1) % 40 in sprite:
+                board += lit
+            else:
+                board += unlit
+            # end of cycle
+            cycle += 1
+        else:
+
+
+            sprite = (X-1, X, X+1)
+            if (cycle-1) % 40 in sprite:
+                board += lit
+            else:
+                board += unlit
+            cycle += 1
+
+            sprite = (X-1, X, X+1)
+            if (cycle-1) % 40 in sprite:
+                board += lit
+            else:
+                board += unlit
+            X += int(l[1])
+            cycle += 1
+
+    return '\n' + '\n'.join(board[i:i+40] for i in range(0, 240, 40))
+
+p2_ans = part2(f_input)
+print(f'Part 2: {p2_ans}')
