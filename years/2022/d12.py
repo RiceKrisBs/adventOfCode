@@ -18,15 +18,20 @@ def custom_ord(char):
         return ord('z') + 1 # 123
     return ord(char)
 
-def search(start_pos, end_pos, graph):
+def search(start_pos, end_pos, graph, starting_options=None):
     visited = set()
     queue = deque()
-
-    queue.append(start_pos)
-    visited.add(start_pos)
-
     parent = {}
-    parent[start_pos] = None
+
+    if starting_options:
+        for option in starting_options:
+            queue.append(option)
+            visited.add(option)
+            parent[option] = None
+    else:
+        queue.append(start_pos)
+        visited.add(start_pos)
+        parent[start_pos] = None
 
     path_found = False
     while queue:
@@ -141,11 +146,8 @@ def part2(input):
                 if down_val <= col_val + 1:
                     graph[position].append((row_num+1,col_num))
 
-    option_lengths = []
-    for option in starting_options:
-        dist = search(option, ending, graph)
-        option_lengths.append(dist)
-    return min(x for x in option_lengths if x > 0)
+    dist = search(None, ending, graph, starting_options)
+    return dist
 
 p2_ans = part2(f_input)
 print(f'Part 2: {p2_ans}')
