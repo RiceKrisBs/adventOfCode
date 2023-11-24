@@ -45,7 +45,7 @@ day=${1:-$current_day}
 padded_day=${(l:2::0:)day}
 current_year=`date +%Y`
 year=${2:-$current_year}
-input_url="https://adventofcode.com/$year/day/$1/input"
+input_url="https://adventofcode.com/$year/day/$day/input"
 
 script_dir=${0:a:h}
 session_location="$script_dir/.aoc.session"
