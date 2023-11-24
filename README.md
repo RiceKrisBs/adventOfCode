@@ -11,3 +11,4 @@ Personal solutions to Advent Of Code puzzles
 | [2020](https://adventofcode.com/2020) | [Python](years/2020) |
 | [2021](https://adventofcode.com/2021) | [Python](years/2021) |
 | [2022](https://adventofcode.com/2022) | [Ruby, Python](years/2022) |
+| [2003](https://adventofcode.com/2023) | [Ruby](years/2023) |
