@@ -1,30 +1,85 @@
 #!/bin/zsh
 
-TEST_INPUT=false
-while getopts 't' OPTION; do
-  case "$OPTION" in
-    t)
-      TEST_INPUT=true
-      ;;
+HelpText() {
+  echo "Downloads the input file for the provided day and year from the Advent of Code server."
+  echo "Usage: getAocInput [options] [day] [year]"
+  echo
+  echo "[options]:"
+  echo "  -t    Creates test input file"
+  echo "  -f    Force download even if input file already exists"
+  echo "  -h    Show this help text"
+  echo
+  echo "[day]:"
+  echo "  The day of the month for which to download the input file."
+  echo "  If not provided, the current day of the month is used."
+  echo "  If the current month is outside of December, this argument is required."
+  echo
+  echo "[year]:"
+  echo "  The year for which to download the input file."
+  echo "  If not provided, the current year is used."
+  echo "  If you are passing a past year, you must also pass a day."
+  exit 0
+}
+
+test_input=false
+force_input=false
+while getopts 'tfh' option; do
+  case "$option" in
+    t) test_input=true ;;
+    f) force_input=true ;;
+    h) HelpText ;;
   esac
 done
 shift "$(($OPTIND -1))"
 
-DAY=$1
-PADDED_DAY=${(l:2::0:)DAY}
-YEAR=${2:-2022}
-INPUT_URL="https://adventofcode.com/$YEAR/day/$1/input"
+current_month=`date +%m`
+if [ "$current_month" -lt 12 ] && [ -z "$1" ]; then
+  echo "Automatic day detection is disabled outside of December."
+  echo "Please specify the day manually."
+  echo "Pass -h for help."
+  exit 1
+fi
 
-SCRIPT_DIR=${0:a:h}
-SESSION_LOCATION="$SCRIPT_DIR/.aoc.session"
-SESSION_COOKIE=`cat $SESSION_LOCATION`
-CONTACT_INFO="github.com/RiceKrisBs/adventOfCode/blob/main/helpers/getAocInput by krisbucyk@gmail.com"
+current_day=`date +%d`
+day=${1:-$current_day}
+padded_day=${(l:2::0:)day}
+current_year=`date +%Y`
+year=${2:-$current_year}
+input_url="https://adventofcode.com/$year/day/$1/input"
 
-if [ "$TEST_INPUT" = true ]
-then
-  OUTPUT_FILE="$SCRIPT_DIR/../years/$YEAR/inputs/input$PADDED_DAY-test.txt"
-  touch "$OUTPUT_FILE"
+script_dir=${0:a:h}
+session_location="$script_dir/.aoc.session"
+
+if [ ! -f "$session_location" ];then
+  echo "No session cookie found. Please paste your session cookie into $session_location using the format 'session=1234abcd'."
+  exit 1
+fi
+
+session_cookie=`cat $session_location`
+contact_info="github.com/RiceKrisBs/adventOfCode/blob/main/helpers/getAocInput by krisbucyk@gmail.com"
+
+if [ "$test_input" = true ];then
+  output_file="$script_dir/../years/$year/inputs/input$padded_day-test.txt"
+
+  if [ -f "$output_file" ] && [ "$force_input" = false ];then
+    echo "Test input file already exists for $year Day $padded_day. Use -f to force a recreation of the file."
+    exit 1
+  elif [ -f "$output_file" ] && [ "$force_input" = true ];then
+    echo "Option -f detected. Deleting existing test input file for $year Day $padded_day..."
+    rm "$output_file"
+    echo "Existing test input file deleted."
+  fi
+
+  echo "Creating test input file for $year Day $padded_day..."
+  touch "$output_file"
+  echo "Test input file created."
 else
-  OUTPUT_FILE="$SCRIPT_DIR/../years/$YEAR/inputs/input$PADDED_DAY.txt"
-  curl "$INPUT_URL" -H "cookie: $SESSION_COOKIE" -H "User-Agent: $CONTACT_INFO" --output "$OUTPUT_FILE"
+  output_file="$script_dir/../years/$year/inputs/input$padded_day.txt"
+  if [ -f "$output_file" ] && [ "$force_input" = false ];then
+    echo "Input file already exists for $year Day $padded_day. Use -f to force a redownload."
+    exit 1
+  fi
+  echo "Downloading input file from AOC server for $year Day $padded_day..."
+  curl "$input_url" -H "cookie: $session_cookie" -H "User-Agent: $contact_info" --output "$output_file"
+  [ $? -eq 0 ] && echo "Input file downloaded."
 fi
