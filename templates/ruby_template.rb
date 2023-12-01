@@ -1,18 +1,31 @@
 # frozen_string_literal: true
 
-testing = true
-day = ''
-throw "Set the day!" if day.empty?
+class Day
+  def part_1
+    data = File.read(input).split("\n")
+    data.map do |line|
+      # implementation goes here
+    end
+    nil
+  end
 
-if testing
-  f_input = File.join('inputs', "input#{day}-test.txt")
-else
-  f_input = File.join('inputs', "input#{day}.txt")
+  def part_2
+    data = File.read(input).split("\n")
+    data.map do |line|
+      # implementation goes here
+    end
+    nil
+  end
+
+  private
+
+  TESTING = false
+  DAY = ''
+  
+  def input
+    TESTING ? File.join('inputs', "input#{DAY}-test.txt") : File.join('inputs', "input#{DAY}.txt")
+  end
 end
 
-def part1(input)
-  data = []
-  File.foreach(input) { |line| data << line.chomp }
-end
-
-puts("Part 1: #{part1(f_input)}")
+puts("Part 1: #{Day.new.part_1}")
+puts("Part 2: #{Day.new.part_2}")
