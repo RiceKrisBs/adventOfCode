@@ -41,7 +41,7 @@ if [ "$current_month" -lt 12 ] && [ -z "$1" ]; then
 fi
 
 current_day=`date +%d`
-day=${1:-$current_day}
+day=$((10#${1:-$current_day}))
 padded_day=${(l:2::0:)day}
 current_year=`date +%Y`
 year=${2:-$current_year}
