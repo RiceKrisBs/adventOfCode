@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
-class Day
+require_relative 'base'
+
+class Day < Base
   def part_1
     data = File.read(input).split("\n")
     data.map do |line|
@@ -27,5 +29,5 @@ class Day
   end
 end
 
-puts("Part 1: #{Day.new.part_1}")
-puts("Part 2: #{Day.new.part_2}")
+Day.new.run
+# Day.new.benchmark
