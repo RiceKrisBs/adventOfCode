@@ -1,3 +1,4 @@
 .aoc.session
 **/inputs/*.txt
 .ruby-version
+/.idea
