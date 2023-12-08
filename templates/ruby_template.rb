@@ -21,7 +21,7 @@ class Day < Base
 
   private
 
-  TESTING = false
+  TESTING = true
   DAY = ''
   
   def input
