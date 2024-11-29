@@ -29,5 +29,6 @@ class Day < Base
   end
 end
 
-Day.new.run
+Day.new.run_part_1
+Day.new.run_part_2
 # Day.new.benchmark
